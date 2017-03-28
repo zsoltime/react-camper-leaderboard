@@ -10,8 +10,8 @@ const UserRow = ({ username, img, recent, alltime }) => (
         { username }
       </div>
     </div>
-    <div className="board__cell board__cell--points">{ recent }</div>
-    <div className="board__cell board__cell--points">{ alltime }</div>
+    <div className="board__cell board__cell--points">{ recent.toLocaleString() }</div>
+    <div className="board__cell board__cell--points">{ alltime.toLocaleString() }</div>
   </div>
 );
 

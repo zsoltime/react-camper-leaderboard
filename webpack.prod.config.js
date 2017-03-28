@@ -50,6 +50,9 @@ module.exports = {
           },
         }, {
           loader: 'sass-loader',
+          options: {
+            outputStyle: 'compressed',
+          },
         }],
       }),
     }],
