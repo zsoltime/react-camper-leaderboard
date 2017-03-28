@@ -12,6 +12,7 @@ describe('<SortButton />', () => {
   describe('render', () => {
     const props = {
       color: '#ccc',
+      className: 'btn-sort btn-sort--asc btn-sort--active',
       size: 32,
       onClickEvent: f => f,
     };
@@ -43,6 +44,18 @@ describe('<SortButton />', () => {
 
       expect(svg.prop('width')).toBe(props.size);
       expect(svg.prop('height')).toBe(props.size);
+    });
+
+    it('should have the correct class names', () => {
+      const button = shallow(
+        <SortButton {...props}>X</SortButton>
+      );
+      const btn = button.find('button');
+
+      expect(btn.hasClass('btn-sort')).toBe(true);
+      expect(btn.hasClass('btn-sort--active')).toBe(true);
+      expect(btn.hasClass('btn-sort--asc')).toBe(true);
+      expect(btn.hasClass('btn-sort--desc')).toBe(false);
     });
 
     it('should have the correct color', () => {
