@@ -3,22 +3,20 @@ import React, { Component } from 'react';
 import UserRow from 'UserRow';
 import SortButton from 'SortButton';
 
-const urlRecent = 'https://fcctop100.herokuapp.com/api/fccusers/top/recent';
-const urlAlltime = 'https://fcctop100.herokuapp.com/api/fccusers/top/alltime';
+const url = 'https://fcctop100.herokuapp.com/api/fccusers/top/recent';
 
 class Board extends Component {
   constructor() {
     super();
     this.state = {
       isFetching: true,
-      sortBy: 'alltime',
+      sortBy: 'recent',
       order: -1,
       users: [],
     };
     this.setSort = this.setSort.bind(this);
   }
   componentDidMount() {
-    const url = this.state.sortBy === 'alltime' ? urlAlltime : urlRecent;
     fetch(url)
       .then(res => res.json())
       .then((users) => {
