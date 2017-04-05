@@ -1,7 +1,7 @@
 {
   "name": "react-camper-leaderboard",
   "version": "0.1.0",
-  "description": "React Markdown previewer for Free Code Camp",
+  "description": "React Camper Leaderboard for Free Code Camp",
   "main": "server.js",
   "scripts": {
     "build": "webpack --config ./webpack.prod.config.js",

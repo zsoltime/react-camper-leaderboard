@@ -1,4 +1,4 @@
-# WIP React Camper Leaderboard
+# React Camper Leaderboard
 
 This is my camper leaderboard for Free Code Camp's [second React challenge](https://www.freecodecamp.com/challenges/build-a-camper-leaderboard).
 
