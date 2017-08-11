@@ -1,19 +1,19 @@
-const path = require('path');
 const autoprefixer = require('autoprefixer');
+const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './app/index.html',
   filename: 'index.html',
   inject: 'body',
 });
-const ExtractSass = new ExtractTextPlugin({
-  filename: 'style.css',
-});
 
 module.exports = {
-  entry: './app/app.jsx',
+  entry: [
+    'react-hot-loader/patch',
+    './app/app.jsx',
+  ],
   output: {
     path: path.resolve('dist'),
     filename: 'bundle.js',
@@ -39,34 +39,36 @@ module.exports = {
       exclude: /node_modules/,
     }, {
       test: /\.sass$/,
-      use: ExtractSass.extract({
-        fallback: 'style-loader',
-        use: [{
-          loader: 'css-loader',
-          options: { sourceMap: true },
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            plugins: () => [autoprefixer],
-            sourceMap: true,
-          },
-        }, {
-          loader: 'sass-loader',
-          options: {
-            outputStyle: 'expanded',
-            sourceMap: true,
-          },
-        }],
-      }),
+      use: [{
+        loader: 'style-loader',
+        options: { sourceMap: true },
+      }, {
+        loader: 'css-loader',
+        options: { sourceMap: true },
+      }, {
+        loader: 'postcss-loader',
+        options: {
+          plugins: () => [autoprefixer],
+          sourceMap: true,
+        },
+      }, {
+        loader: 'sass-loader',
+        options: {
+          outputStyle: 'expanded',
+          sourceMap: true,
+        },
+      }],
     }],
   },
   plugins: [
     HtmlWebpackPluginConfig,
-    ExtractSass,
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
+    hot: true,
     overlay: true,
     port: 8080,
     watchContentBase: true,

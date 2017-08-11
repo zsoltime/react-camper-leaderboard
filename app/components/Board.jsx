@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
-import UserRow from 'UserRow';
+import Header from 'Header';
+import Footer from 'Footer';
 import SortButton from 'SortButton';
+import UserRow from 'UserRow';
 
 const url = 'https://fcctop100.herokuapp.com/api/fccusers/top/recent';
 
@@ -54,31 +56,35 @@ class Board extends Component {
   }
   render() {
     return (
-      <div className="board">
-        <div className="board__header board__header--sticky">
-          <div className="board__cell board__cell--user">Camper</div>
-          <div className="board__cell board__cell--points">
-            <SortButton
-              className={this.getButtonClassNames('recent')}
-              onClickEvent={() => this.handleClick('recent')}
-            >
-              Past 30 Days&rsquo; Points
-            </SortButton>
+      <div>
+        <Header />
+        <main className="board">
+          <div className="board__header board__header--sticky">
+            <div className="board__cell board__cell--user">Camper</div>
+            <div className="board__cell board__cell--points">
+              <SortButton
+                className={this.getButtonClassNames('recent')}
+                onClickEvent={() => this.handleClick('recent')}
+              >
+                Past 30 Days&rsquo; Points
+              </SortButton>
+            </div>
+            <div className="board__cell board__cell--points">
+              <SortButton
+                className={this.getButtonClassNames('alltime')}
+                onClickEvent={() => this.handleClick('alltime')}
+              >
+                All-Time Points
+              </SortButton>
+            </div>
           </div>
-          <div className="board__cell board__cell--points">
-            <SortButton
-              className={this.getButtonClassNames('alltime')}
-              onClickEvent={() => this.handleClick('alltime')}
-            >
-              All-Time Points
-            </SortButton>
+          <div className="board__body">
+            {this.sortedList().map(user => (
+              <UserRow key={user.username} {...user} />
+            ))}
           </div>
-        </div>
-        <div className="board__body">
-          {this.sortedList().map(user => (
-            <UserRow key={user.username} {...user} />
-          ))}
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }

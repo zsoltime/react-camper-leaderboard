@@ -1,8 +1,8 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './app/index.html',
@@ -14,7 +14,10 @@ const ExtractTextPluginConfig = new ExtractTextPlugin({
 });
 
 module.exports = {
-  entry: './app/app.jsx',
+  entry: [
+    'react-hot-loader/patch',
+    './app/app.jsx',
+  ],
   output: {
     path: path.resolve('dist'),
     filename: 'bundle.js',
@@ -43,6 +46,7 @@ module.exports = {
         fallback: 'style-loader',
         use: [{
           loader: 'css-loader',
+          options: { minimize: true },
         }, {
           loader: 'postcss-loader',
           options: {
@@ -50,9 +54,6 @@ module.exports = {
           },
         }, {
           loader: 'sass-loader',
-          options: {
-            outputStyle: 'compressed',
-          },
         }],
       }),
     }],
@@ -85,10 +86,4 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
   ],
-  externals: {
-    // these lines are required for Enzyme
-    'react/addons': true,
-    'react/lib/ReactContext': 'window',
-    'react/lib/ExecutionEnvironment': true,
-  },
 };
