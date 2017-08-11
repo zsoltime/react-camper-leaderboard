@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => (
   <header className="site-header">
-    <h1>FCC Leaderboard</h1>
+    <h1 className="site-title">FCC Leaderboard</h1>
   </header>
 );
 
