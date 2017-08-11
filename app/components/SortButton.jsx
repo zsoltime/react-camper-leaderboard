@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SortButton = ({ size, color, children, className, onClickEvent }) => (
+const SortButton = ({ size, color, children, className, onClickEvent, ariaLabel }) => (
   <button
     className={className}
     onClick={onClickEvent}
+    type="button"
+    aria-label={ariaLabel}
   >
     {children}
     <svg
@@ -26,6 +28,7 @@ SortButton.defaultProps = {
 };
 
 SortButton.propTypes = {
+  ariaLabel: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string.isRequired,
   color: PropTypes.string,

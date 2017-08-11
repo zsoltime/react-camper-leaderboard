@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const UserRow = ({ username, img, recent, alltime }) => (
-  <div className="board__row">
-    <div className="board__cell board__cell--user user">
+  <div className="table__row" role="row">
+    <div className="table__cell table__cell--user user" role="gridcell">
       <div className="user__avatar">
         <img src={img} alt="" />
       </div>
@@ -11,8 +11,12 @@ const UserRow = ({ username, img, recent, alltime }) => (
         { username }
       </div>
     </div>
-    <div className="board__cell board__cell--points">{ recent.toLocaleString() }</div>
-    <div className="board__cell board__cell--points">{ alltime.toLocaleString() }</div>
+    <div className="table__cell table__cell--points" role="gridcell">
+      { recent.toLocaleString() }
+    </div>
+    <div className="table__cell table__cell--points" role="gridcell">
+      { alltime.toLocaleString() }
+    </div>
   </div>
 );
 

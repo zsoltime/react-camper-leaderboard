@@ -16,6 +16,7 @@ class Board extends Component {
       order: -1,
       users: [],
     };
+    this.ariaSort = this.ariaSort.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
@@ -46,42 +47,87 @@ class Board extends Component {
       });
     }
   }
+  ariaSort(sortBy) {
+    if (sortBy !== this.state.sortBy) {
+      return null;
+    }
+    return this.state.order === 1 ? 'ascending' : 'descending';
+  }
   sortedList() {
-    return this.state.users.sort((a, b) => {
-      if (this.state.order === 1) {
-        return a[this.state.sortBy] - b[this.state.sortBy];
+    const sortFn = (a, b) => {
+      const { order, sortBy } = this.state;
+
+      if (sortBy !== 'username') {
+        return (a[sortBy] - b[sortBy]) * order;
       }
-      return b[this.state.sortBy] - a[this.state.sortBy];
-    });
+      if (a.username.toUpperCase() < b.username.toUpperCase()) {
+        return order * -1;
+      }
+      if (a.username.toUpperCase() > b.username.toUpperCase()) {
+        return order;
+      }
+      return 0;
+    };
+
+    return this.state.users.sort(sortFn);
   }
   render() {
     return (
       <div>
         <Header />
         <main className="board">
-          <div className="board__header board__header--sticky">
-            <div className="board__cell board__cell--user">Camper</div>
-            <div className="board__cell board__cell--points">
-              <SortButton
-                className={this.getButtonClassNames('recent')}
-                onClickEvent={() => this.handleClick('recent')}
+          <div className="table" role="grid">
+            <div
+              className="table__header table__header--sticky"
+              role="row toolbar"
+              aria-label="Sorting options"
+              aria-controls="sortable"
+            >
+              <div
+                className="table__cell table__cell--user"
+                role="columnheader"
+                aria-sort={this.ariaSort('username')}
               >
-                Past 30 Days&rsquo; Points
-              </SortButton>
-            </div>
-            <div className="board__cell board__cell--points">
-              <SortButton
-                className={this.getButtonClassNames('alltime')}
-                onClickEvent={() => this.handleClick('alltime')}
+                <SortButton
+                  className={this.getButtonClassNames('username')}
+                  onClickEvent={() => this.handleClick('username')}
+                  ariaLabel="Sort by username"
+                >
+                  Camper
+                </SortButton>
+              </div>
+              <div
+                className="table__cell table__cell--points"
+                role="columnheader"
+                aria-sort={this.ariaSort('recent')}
               >
-                All-Time Points
-              </SortButton>
+                <SortButton
+                  className={this.getButtonClassNames('recent')}
+                  onClickEvent={() => this.handleClick('recent')}
+                  ariaLabel="Sort by past 30 days points"
+                >
+                  Past 30 Days&rsquo; Points
+                </SortButton>
+              </div>
+              <div
+                className="table__cell table__cell--points"
+                role="columnheader"
+                aria-sort={this.ariaSort('alltime')}
+              >
+                <SortButton
+                  className={this.getButtonClassNames('alltime')}
+                  onClickEvent={() => this.handleClick('alltime')}
+                  ariaLabel="Sort by alltime points"
+                >
+                  All-Time Points
+                </SortButton>
+              </div>
             </div>
-          </div>
-          <div className="board__body">
-            {this.sortedList().map(user => (
-              <UserRow key={user.username} {...user} />
-            ))}
+            <div className="table__body" role="rowgroup">
+              {this.sortedList().map(user => (
+                <UserRow key={user.username} {...user} />
+              ))}
+            </div>
           </div>
         </main>
         <Footer />
